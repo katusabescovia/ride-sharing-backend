@@ -36,13 +36,11 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     
     - name: Set REDIS_URL
-     
       run: echo "REDIS_URL=redis://localhost:6379/0" >> $GITHUB_ENV
+    
     - name: Check Redis connection
       run: |
-        # Install redis-cli
         sudo apt-get install -y redis-tools
-        # Test connection to Redis
         redis-cli -h localhost -p 6379 ping
     
     - name: Run tests
@@ -52,6 +50,9 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      packages: write
     
     steps:
     - uses: actions/checkout@v2
@@ -69,6 +70,9 @@ jobs:
     - name: Tag and push image
       run: |
         IMAGE_ID=ghcr.io/${{ github.repository_owner }}/ride-sharing-backend
+        # Convert IMAGE_ID to lowercase (GitHub packages must be lowercase)
+        IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+        
         docker tag ride-sharing-backend $IMAGE_ID:${{ github.sha }}
         docker push $IMAGE_ID:${{ github.sha }}
         docker tag ride-sharing-backend $IMAGE_ID:latest
