@@ -32,7 +32,7 @@ This project is a simplified ride-sharing backend that demonstrates:
 │   ├── 📄 config.env → Environment variables
 ├── 📂 tests
 │   ├── 📄 test_matching.py → Test for matching algorithm
-│   ├── 📄 test_api.py → Test for API integration
+│   
 ├── 📄 Dockerfile → Containerization setup
 ├── 📄 docker-compose.yml → Local development setup
 ├── 📄 .github/workflows/ci-cd.yml → CI/CD pipeline
@@ -77,7 +77,9 @@ python src/server.py
 | POST     | complete-ride/:id  |Mark a ride as completed
 
 Example Request:
-curl -X POST "http://localhost:8080/request-ride" -H "Content-Type: application/json" -d '{ "lat": 40.7128, "lon": -74.0060 }'
+
+TESTING ENDPOINT:Postman
+curl -X POST "http://localhost:8080/request-ride" -H "Content-Type: application/json" -d '{ "lat": 40.7128, "lon": -74.0060 }' 
 
   Results:{
   
