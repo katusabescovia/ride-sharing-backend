@@ -9,19 +9,16 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     services:
       redis:
         image: redis:latest
         ports:
           - 6379:6379
-        # Optional: Add environment variables if required
-        env:
-          REDIS_HOST: redis
-          REDIS_PORT: 6379
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout Repository
+      uses: actions/checkout@v2
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -33,7 +30,10 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Wait for Redis to be ready
+    - name: Set REDIS_URL
+      run: echo "REDIS_URL=redis://redis:6379/0" >> $GITHUB_ENV
+
+    - name: Wait for Redis
       run: |
         until nc -z -v -w30 redis 6379; do
           echo "Waiting for Redis..."
@@ -42,8 +42,7 @@ jobs:
         echo "Redis is up and running!"
 
     - name: Run tests
-      run: |
-        pytest
+      run: pytest
 
   build-and-deploy:
     needs: test
