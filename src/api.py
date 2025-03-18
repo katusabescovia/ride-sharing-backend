@@ -92,14 +92,14 @@ def update_driver_locations(drivers):
     Also updates Redis cache with driver locations
     """
     for driver in drivers:
-        # Only update locations for available drivers
+        # Only updating  locations for available drivers
         if driver["available"]:
-            # Simulate movement (in a real app, this would come from the API)
+            # Simulating movement (in a real app, this would come from the API)
             new_lat, new_lon = get_random_location_nearby(driver["lat"], driver["lon"], 0.5)
             driver["lat"] = new_lat
             driver["lon"] = new_lon
             
-            # Update Redis cache if available
+            # Updating  Redis cache if available
             if redis_client:
                 driver_data = {
                     "id": driver["id"],

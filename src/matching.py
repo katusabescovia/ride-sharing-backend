@@ -7,7 +7,7 @@ def haversine_distance(lat1, lon1, lat2, lon2):
     
     Returns distance in kilometers
     """
-    # Convert decimal degrees to radians
+    # Converting  decimal degrees to radians
     lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
     
     # Haversine formula

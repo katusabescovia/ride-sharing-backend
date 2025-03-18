@@ -1,13 +1,13 @@
 # Dockerfile
 FROM python:3.9-slim
 
-# Set working directory in the container
+# Setting working directory in the container
 WORKDIR /app
 
-# Set environment variable for Python module search path
+# Setting  environment variable for Python module search path
 ENV PYTHONPATH=/app/src
 
-# Copy the entire app including the src folder
+# Copying the entire app including the src folder
 COPY . .
 
 # Installing  dependencies

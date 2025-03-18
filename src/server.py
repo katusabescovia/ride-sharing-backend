@@ -13,7 +13,7 @@ app = Flask(__name__)
 drivers = []
 rides = {}
 
-# Load initial drivers (in production this would come from a database)
+# Loading initial drivers (in production this would come from a database)
 drivers = [
     {"id": "driver1", "name": "John Doe", "lat": 40.7128, "lon": -74.0060, "available": True},
     {"id": "driver2", "name": "Jane Smith", "lat": 40.7300, "lon": -74.0200, "available": True},
@@ -30,7 +30,7 @@ def update_locations_periodically():
             print(f"Error updating driver locations: {e}")
         time.sleep(60)  # Update every minute
 
-# Start the background location update thread
+# Starting the background location update thread
 location_thread = threading.Thread(target=update_locations_periodically, daemon=True)
 location_thread.start()
 
@@ -44,13 +44,13 @@ def request_ride():
     rider_lat = data['lat']
     rider_lon = data['lon']
     
-    # Find the nearest available driver
+    # Finding  the nearest available driver
     driver = find_nearest_driver(drivers, rider_lat, rider_lon)
     
     if not driver:
         return jsonify({"error": "No drivers available"}), 404
     
-    # Create a new ride
+    # Creating  a new ride
     ride_id = str(uuid.uuid4())
     rides[ride_id] = {
         "id": ride_id,
@@ -61,7 +61,7 @@ def request_ride():
         "created_at": time.time()
     }
     
-    # Mark the driver as unavailable
+    # Marking  the driver as unavailable
     for d in drivers:
         if d["id"] == driver["id"]:
             d["available"] = False
@@ -89,10 +89,10 @@ def complete_ride(ride_id):
     if ride_id not in rides:
         return jsonify({"error": "Ride not found"}), 404
     
-    # Update ride status
+    # Updating ride status
     rides[ride_id]["status"] = "completed"
     
-    # Mark the driver as available again
+    # Marking  the driver as available again
     driver_id = rides[ride_id]["driver"]["id"]
     for d in drivers:
         if d["id"] == driver_id:
